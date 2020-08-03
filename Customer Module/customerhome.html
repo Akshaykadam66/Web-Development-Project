@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>CUSTOMER HOME PAGE</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <style type="text/css">
+            .button {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 13px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            }
+            input[type=text] {
+              width: 100%;
+              padding: 12px 20px;
+              margin: 8px 0;
+              box-sizing: border-box;
+            }
+
+ #header {
+  
+            background: #780206;  /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, #061161, #780206);  /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, #061161, #780206); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            color : white;
+  
+        }
+
+ a:link, a:visited {
+  background-color: green;
+  color: white;
+  padding: 18px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
+a:hover, a:active {
+  background-color: red;
+}
+        </style>
+        <script>
+            xhr = new XMLHttpRequest();
+            function sendTerm(){
+                searchterm = document.getElementById('search');
+                container=document.getElementById("container");
+                xhr.open("get","browser_server.php?term="+ searchterm.value,true);
+                xhr.onloadend = showResult;
+                xhr.responseType="json";
+                xhr.send();
+            }
+            function showResult(){
+                    var response =this.response;
+                    console.log("hello")
+                    container.innerHTML= "";
+                    var i;
+                     for(i=0;i<response.length;i++){
+                        var myvar = document.createElement("div");
+                        myvar.innerHTML = response[i]["productname"];
+                        container.appendChild(myvar);
+                        myvar.addEventListener("click",fun,false);
+                    } 
+                    container.style.display="block";
+            }
+            function fun(event){
+                console.log("onclick is working");
+                myvalue = event.target.innerHTML;
+                console.log(myvalue); 
+                searchterm = document.getElementById('search');
+                searchterm.value = myvalue;
+                event.stopPropagation();
+
+            }
+            function get_info(){
+                console.log("get_info is working!");
+                var myframe = document.getElementById("myframe");
+                myframe.style = "display:block";
+                var search_key = document.getElementById("search");
+                var search_key_value = search_key.value;
+                console.log(search_key_value);
+                myframe.src="http://localhost/webtech2_project/Final/wt2/customer/product_detail.php?search_key_value="+search_key_value;
+            }
+        </script>
+    
+    </head>
+    <body>
+        <center>
+       <div id="header">
+        <br>
+        <h1>Customer Home Page</h1>
+        <br>
+        <br>
+       </div>
+        <hr>
+         <a href="browse.php">
+            Browse Products
+        </a>
+        <a href="changepassword.html">
+            Change Password
+        </a>
+         <a href="custlogin.html">
+            Logout
+        </a>
+        </br>
+        </br>
+    </br>
+</br>
+ <div class="main main-raised">
+        <table border="0" cellpadding="0">
+        <tr>
+            <td>
+                <h2>Shop Now!</h2>
+            </td>
+            <td>
+                <input type="text" size="30" id="search" name="search_key" placeholder="Search for products,brands and more" onkeydown="sendTerm()"/> 
+            </td>
+            <td>
+                <input type="button" class="button" value="Search" onclick="get_info()">
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <div id="container" onclick="fun(this)">
+            </td>
+        </tr>
+        </table>
+        </center>
+        <br/>
+        <br/>
+        
+        <br/>
+        <br/>
+        
+        </form>
+        <center>
+            <iframe id="myframe" style="display: none" height="300" width="600"></iframe>
+        </center>
+    </body>
+</html>
+
+
